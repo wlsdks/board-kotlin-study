@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 @Service
 class PostService(
-    private val postRepository: PostRepository
+    private val postRepository: PostRepository,
 ) {
 
     @Transactional
@@ -43,5 +43,4 @@ class PostService(
     fun findPageBy(pageRequest: Pageable, postSearchRequestDto: PostSearchRequestDto): Page<PostSummaryResponseDto> {
         return postRepository.findPageBy(pageRequest, postSearchRequestDto).toSummaryResponseDto()
     }
-
 }

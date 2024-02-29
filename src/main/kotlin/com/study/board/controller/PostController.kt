@@ -48,5 +48,4 @@ class PostController(
     ): Page<PostSummaryResponse> {
         return postService.findPageBy(pageable, postSearchRequest.toDto()).toResponse()
     }
-
 }
