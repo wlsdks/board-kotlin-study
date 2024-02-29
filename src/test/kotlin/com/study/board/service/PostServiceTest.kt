@@ -1,9 +1,11 @@
 package com.study.board.service
 
+import com.study.board.domain.Comment
 import com.study.board.domain.Post
 import com.study.board.exception.PostNotDeletableException
 import com.study.board.exception.PostNotFoundException
 import com.study.board.exception.PostNotUpdatableException
+import com.study.board.repository.CommentRepository
 import com.study.board.repository.PostRepository
 import com.study.board.service.dto.PostCreateRequestDto
 import com.study.board.service.dto.PostSearchRequestDto
@@ -22,6 +24,7 @@ import org.springframework.data.repository.findByIdOrNull
 class PostServiceTest(
     private val postService: PostService,
     private val postRepository: PostRepository,
+    private val commentRepository: CommentRepository,
 ) : BehaviorSpec({
 
     beforeSpec {
@@ -146,6 +149,21 @@ class PostServiceTest(
                 shouldThrow<PostNotFoundException> {
                     postService.getPost(9999L)
                 }
+            }
+        }
+        When("댓글 추가시") {
+            commentRepository.save(Comment("댓글 내용1", saved, "댓글 작성자"))
+            commentRepository.save(Comment("댓글 내용2", saved, "댓글 작성자"))
+            commentRepository.save(Comment("댓글 내용3", saved, "댓글 작성자"))
+            val post = postService.getPost(saved.id)
+            Then("댓글이 함께 조회됨을 확인한다.") {
+                post.comments.size shouldBe 3
+                post.comments[0].content shouldBe "댓글 내용1"
+                post.comments[1].content shouldBe "댓글 내용2"
+                post.comments[2].content shouldBe "댓글 내용3"
+                post.comments[0].createdBy shouldBe "댓글 작성자"
+                post.comments[1].createdBy shouldBe "댓글 작성자"
+                post.comments[2].createdBy shouldBe "댓글 작성자"
             }
         }
     }
