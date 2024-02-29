@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 interface PostRepository : JpaRepository<Post, Long>, CustomPostRepository
 
 interface CustomPostRepository {
-    fun findPageBy(pageRequest: Pageable, postSearchRequestDto: PostSearchRequestDto) : Page<Post>
+    fun findPageBy(pageRequest: Pageable, postSearchRequestDto: PostSearchRequestDto): Page<Post>
 }
 
 class CustomPostRepositoryImpl : CustomPostRepository, QuerydslRepositorySupport(Post::class.java) {
@@ -29,5 +29,4 @@ class CustomPostRepositoryImpl : CustomPostRepository, QuerydslRepositorySupport
 
         return PageImpl(result.results, pageRequest, result.total)
     }
-
 }
