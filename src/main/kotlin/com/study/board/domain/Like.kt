@@ -22,5 +22,4 @@ class Like(
     @ManyToOne(fetch = FetchType.LAZY)
     var post: Post = post
         protected set
-
 }
