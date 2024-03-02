@@ -11,7 +11,6 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 interface TagRepository : JpaRepository<Tag, Long>, CustomTagRepository {
     fun findByPostId(postId: Long): List<Tag>
-
 }
 
 interface CustomTagRepository {
